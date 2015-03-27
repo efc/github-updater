@@ -211,7 +211,13 @@ class Base {
 				) {
 					$repo_enterprise_uri = $headers[ $header_parts[0] . ' Enterprise' ];
 					$repo_enterprise_uri = trim( $repo_enterprise_uri, '/' );
-					$repo_enterprise_uri = $repo_enterprise_uri . '/api/v3';
+					switch( $header_parts[0] ) {
+						case 'GitHub':
+							$repo_enterprise_uri = $repo_enterprise_uri . '/api/v3';
+							break;
+						case 'GitLab':
+							break;
+					}
 				}
 
 				$git_plugin['type']                    = $repo_type;
@@ -281,7 +287,13 @@ class Base {
 					$repo_enterprise_uri = $theme->get( $header_parts[0] . ' Enterprise' );
 					if ( ! empty( $repo_enterprise_uri ) ) {
 						$repo_enterprise_uri = trim( $repo_enterprise_uri, '/' );
-						$repo_enterprise_uri = $repo_enterprise_uri . '/api/v3';
+						switch( $header_parts[0] ) {
+							case 'GitHub':
+								$repo_enterprise_uri = $repo_enterprise_uri . '/api/v3';
+								break;
+							case 'GitLab':
+								break;
+						}
 					}
 					$repo_branch   = $header_parts[0] . ' Branch';
 					$repo_base_uri = $repo_base_uris[ $repo_type ];
