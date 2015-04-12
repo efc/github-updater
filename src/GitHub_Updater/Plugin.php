@@ -64,6 +64,11 @@ class Plugin extends Base {
 				$changelog = $this->get_changelog_filename( $plugin->type );
 				if ( $changelog ) {
 					$repo_api->get_remote_changes( $changelog );
+				} else {
+					$readme = $this->get_readme_filename( $plugin->type );
+					if ( $readme ) {
+						$repo_api->get_remote_readme( $readme );
+					}
 				}
 				$plugin->download_link = $repo_api->construct_download_link();
 			}
@@ -101,6 +106,30 @@ class Plugin extends Base {
 		Settings::$ghu_plugins = $this->config;
 	}
 
+
+	/**
+	 * Get filename of readme and return
+	 *
+	 * @param $type
+	 *
+	 * @return bool|string
+	 */
+	protected function get_readme_filename( $type ) {
+		$readmes = array( 'README.md', 'readme.md' );
+		$readme    = null;
+
+		if ( is_dir( $this->$type->local_path ) ) {
+			$local_files = scandir( $this->$type->local_path );
+			$readme = array_intersect( (array) $local_files, $readmes );
+			$readme = array_pop( $readme );
+		}
+
+		if ( ! empty( $readme ) ) {
+			return $readme;
+		}
+
+			return false;
+	}
 
 	/**
 	 * Add branch switch row to plugins page.

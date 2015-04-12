@@ -1,0 +1,8 @@
+div.github-updater h3 {
+	clear: none;
+}
+
+div.github-updater pre,
+div.github-updater code {
+	background: #eaeaea;
+}

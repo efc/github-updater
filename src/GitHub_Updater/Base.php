@@ -615,6 +615,49 @@ class Base {
 
 
 	/**
+	 * Build sections for the plugin-install page from readme response.
+	 *
+	 * Uses a transient to limit calls to the API.
+	 *
+	 * @param $response
+	 *
+	 * @return void
+	 */
+	public function build_readme_sections( $response ) {
+
+		$readmetext = $this->get_transient( 'readmetext' );
+
+		if ( ! $readmetext ) {
+			$parser    = new Parsedown;
+			$readmetext = $parser->text( $response->data );
+			$this->set_transient( 'readmetext', $readmetext );
+		}
+		
+		// build an array of sections in the readme file based on <h2> delimiters
+		unset($this->type->sections['changelog']);
+		unset($this->type->sections['description']);
+		$sections = explode( '<h2>', $readmetext );
+		foreach	($sections as $text) {
+			if ( strpos( $text, '</h2>' ) ) {
+				list($title, $content) = explode( '</h2>', $text);
+				if ( strtolower($title) == "changelog" && $preface ) {
+					// add the preface to the changelog tab
+					$content = $preface . '<h2>Changelog</h2>' . $content;
+					$preface = '';
+				}
+				$this->type->sections[str_replace( ' ', '', $title )] = '<div class="github-updater">'.$content.'</div>';
+			} else {
+				$preface = $text; // the material ahead of first <h2>
+			}
+		}
+		
+		if ( $preface ) {
+			// since the preface was not used on changelog tab
+			$this->type->sections['about'] = '<div class="github-updater">'.$preface.'</div>';
+		}
+	}
+
+	/**
 	 * Create some sort of rating from 0 to 100 for use in star ratings
 	 * I'm really just making this up, more based upon popularity
 	 *

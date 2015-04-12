@@ -278,6 +278,33 @@ class GitHub_API extends Base {
 	}
 
 	/**
+	 * Read the remote README.md file
+	 *
+	 * Uses a transient to limit calls to the API.
+	 *
+	 * @param $readme
+	 *
+	 * @return void|bool
+	 */
+	public function get_remote_readme( $readme ) {
+		$response = $this->get_transient( 'readme' );
+
+		if ( ! $response ) {
+			$response = $this->api( '/repos/:owner/:repo/contents/' . $readme  );
+
+			if ( $response ) {
+				$this->set_transient( 'readme', $response );
+			}
+		}
+
+		if ( ! $response || isset( $response->message ) ) {
+			return false;
+		}
+
+		$this->build_readme_sections( $response );
+	}
+
+	/**
 	 * Read the repository meta from API
 	 * Uses a transient to limit calls to the API
 	 *

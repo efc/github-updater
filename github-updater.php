@@ -67,3 +67,19 @@ new $instantiate;
  * of GitHub_Updater's methods, especially renaming.
  */
 add_action( 'init', array( 'Fragen\\GitHub_Updater\\Base', 'init' ) );
+
+/**
+ * Override some of the styles in WordPress plugin-install pages
+ * that conflict with typical GitHub styles found in readme.md
+ */
+function enqueue_github_updater_stylesheet($hook) {
+    if ( 'plugin-install.php' != $hook ) {
+        return;
+    }
+    wp_register_style( 'github-updater-stylesheet', plugin_dir_url( __FILE__ ) . 'github-updater.css' );
+    wp_enqueue_style( 'github-updater-stylesheet' );
+}
+add_action( 'admin_enqueue_scripts', 'enqueue_github_updater_stylesheet' );
+
+
+

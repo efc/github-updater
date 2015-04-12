@@ -266,6 +266,41 @@ class Bitbucket_API extends Base {
 	}
 	
 	/**
+	 * Read the remote README.md file
+	 *
+	 * Uses a transient to limit calls to the API.
+	 *
+	 * @param $readme
+	 *
+	 * @return void|bool
+	 */
+	public function get_remote_readme( $readme ) {
+		$response = $this->get_transient( 'readme' );
+
+		if ( ! $response ) {
+			if ( ! isset( $this->type->branch ) ) {
+				$this->type->branch = 'master';
+			}
+			$response = $this->api( '1.0/repositories/:owner/:repo/src/' . trailingslashit( $this->type->branch ) . $readme );
+
+			if ( ! $response ) {
+				$response['message'] = 'No readme found';
+				$response = (object) $response;
+			}
+
+			if ( $response ) {
+				$this->set_transient( 'readme', $response );
+			}
+		}
+
+		if ( ! $response || isset( $response->message ) ) {
+			return false;
+		}
+		
+		$this->build_readme_sections( $response );
+	}
+	
+	/**
 	 * Read the repository meta from API
 	 *
 	 * Uses a transient to limit calls to the API
