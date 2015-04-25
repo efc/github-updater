@@ -1,3 +1,18 @@
+#### 4.4.0
+* only add custom user agent once :P
+* add support of GitHub Enterprise via new `GitHub Enterprise` header
+* sanitize filter input
+* add support for for parsing `readme.txt` for _View details_ information
+* fixed _View details_ link to show for all cases when plugin using GitHub Updater
+* refactor creation of header parts and URIs
+
+#### 4.3.1
+* Spanish translation by [Jose Miguel Bejarano](https://github.com/xDae)
+* German translation by [Linus Metzler](https://github.com/limenet)
+* squish PHP notices
+* add custom user agent to `wp_remote_get` and tweak error message at request of GitHub ;-)
+* fixed edge case renaming bug
+
 #### 4.3.0
 * use @WPUpdatePhp `class WPUpdatePhp` for PHP version checking
 * use https://api.wordpress.org not http

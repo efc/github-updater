@@ -5,8 +5,9 @@
 * Tags: plugin, theme, update, updater, github, bitbucket, remote install
 * Requires at least: 3.8
 * Requires PHP: 5.3
-* Tested up to: 4.2beta
+* Tested up to: 4.2
 * Stable tag: master
+* Donate link: http://bit.ly/github-updater
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,17 +20,15 @@ This plugin is [not allowed in the wp.org repo](https://github.com/afragen/githu
 
 This plugin was designed to simply update any GitHub hosted WordPress plugin or theme. Your plugin or theme **must** contain a header in the style.css header or in the plugin's header denoting the location on GitHub. The format is as follows.
 
-`GitHub Theme URI: afragen/test-child`  
-`GitHub Theme URI: https://github.com/afragen/test-child`
-
-or 
-
 `GitHub Plugin URI: afragen/github-updater`  
 `GitHub Plugin URI: https://github.com/afragen/github-updater`
 
-...where the above URI leads to the __owner/repository__ of your theme or plugin. The URI may be in the format `https://github.com/<owner>/<repo>` or the short format `<owner>/<repo>`. You do not need both. Only one Plugin or Theme URI is required.
+or 
 
-Developers please note that your plugin/theme installation directory and remote repository names **must** be identical. This includes case sensitivity. Otherwise issues may arise where certain features fail to work properly. Please be consistent in your naming.
+`GitHub Theme URI: afragen/test-child`  
+`GitHub Theme URI: https://github.com/afragen/test-child`
+
+...where the above URI leads to the __owner/repository__ of your theme or plugin. The URI may be in the format `https://github.com/<owner>/<repo>` or the short format `<owner>/<repo>`. You do not need both. Only one Plugin or Theme URI is required. You **must not** include any extensions like `.git`.
 
 ## Installation
 
@@ -126,6 +125,12 @@ GitHub Branch:     master
 
 `GitHub Branch` and `Bitbucket Branch` are available but not required.
 
+### Enterprise Support
+
+#### GitHub Enterprise Support
+
+Add the `GitHub Enterprise` header to the plugin or theme that is hosted on your GitHub Enterprise installation. The settings should be similar to `GitHub Enterprise: https://github.yourhost.com`.
+
 ### Versions
 
 GitHub Updater reads the `Version` headers from both the local file and the remote file. For an update to show as available the remote version number **must** be greater than the local version number. It is **required** to have a `Version` header in your main plugin file or your theme's `style.css` file. It is better to use [Semantic Versioning](http://semver.org).
@@ -184,9 +189,9 @@ There are now two **optional** headers for setting minimum requirements for both
 
 Use `Requires WP:` to set the minimum required version of WordPress needed for your plugin or theme. eg. `Requires WP: 3.8`
 
-Use `Requires PHP:` to set the minimum required version of PHP needed for your plugin or theme. eg. `Requires PHP: 5.3`
+Use `Requires PHP:` to set the minimum required version of PHP needed for your plugin or theme. eg. `Requires PHP: 5.3.0`
 
-At the moment the default values are **WordPress 0.0.0** and **PHP 5.3**
+At the moment the default values are **WordPress 3.8.0** and **PHP 5.3.0**
 
 ## Deleting Transients
 
@@ -210,14 +215,16 @@ From the `GitHub Updater Settings Page` there is a tabbed interface for remote i
 
 GitHub Updater now reports a small error message on certain pages in the dashboard. The error codes are HTTP status codes. Most often the code will be either 403 or 401. If you don't have an Access Token set for a private GitHub repo you will get a 404 error.
 
-There is a new setting for a personal GitHub Access Token. Create one with at least `public_repo` access and your rate limit will be increased to 5000 API hits per hour. Thanks [mlteal](https://github.com/mlteal).
+### Personal GitHub Access Token
+
+There is a new setting for a personal GitHub Access Token. I **strongly** encourage everyone to create a [personal access token](https://github.com/settings/tokens/new). Create one with at least `public_repo` access and your rate limit will be increased to 5000 API hits per hour. Unauthenticated calls to the GitHub API are limited to 60 API calls per hour and in certain circumstances, like shared hosting, these limits will be more frequently hit. Thanks [mlteal](https://github.com/mlteal).
 
 ### 403 - Unauthorized Access
 
 #### GitHub
-* usually this means that you have reached GitHub API's rate limit of 60 hits per hour. This is informative and will go away in less than an hour.
+* usually this means that you have reached GitHub API's rate limit of 60 hits per hour. This is informative and should go away in less than an hour. See above regarding the setting of a personal access token to eliminate this entirely.
 * a private GitHub repo without an Access Token designated in the Settings.
-* will tell you how long until GitHub API's rate limit will be reset
+* will tell you how long until GitHub API's rate limit will be reset.
 
 ### 401 - Incorrect Authentication
 
@@ -226,7 +233,7 @@ There is a new setting for a personal GitHub Access Token. Create one with at le
 * private Bitbucket repo not checked in Settings
 
 #### GitHub
-* using a GitHub Access Token for a public repo
+* using an incorrect private repo GitHub Access Token for a public repo
 * an incorrect Access Token for a private GitHub repo.
 
 ## Extras
@@ -246,6 +253,8 @@ There is a new setting for a personal GitHub Access Token. Create one with at le
 * Ukrainian by [Andrii Ryzhkv](https://github.com/andriiryzhkov)
 * Swedish by [Andréas Lundgren](https://github.com/Adevade)
 * Arabic by [Hyyan Abo FAkher](https://github.com/hyyan)
+* Spanish by [Jose Miguel Bejarano](https://github.com/xDae)
+* German by [Linus Metzler](https://github.com/limenet)
 
 ## Issues
 
