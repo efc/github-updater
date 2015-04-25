@@ -340,11 +340,13 @@ class GitHub_API extends Base {
 
 		unset( $response['sections']['screenshots'] );
 		unset( $response['sections']['installation'] );
-		$this->type->sections     = array_merge( (array) $this->type->sections, (array) $response['sections'] );
-		$this->type->tested       = $response['tested_up_to'];
-		$this->type->requires     = $response['requires_at_least'];
-		$this->type->donate       = $response['donate_link'];
-		$this->type->contributors = $response['contributors'];
+		if ( isset( $response['sections'] ) ) { 
+			$this->type->sections     = array_merge( (array) $this->type->sections, (array) $response['sections'] );
+		}
+		$this->type->tested       = isset( $response['tested_up_to'] ) ? $response['tested_up_to'] : '';
+		$this->type->requires     = isset( $response['requires_at_least'] ) ? $response['requires_at_least'] : '';
+		$this->type->donate       = isset( $response['donate_link'] ) ? $response['donate_link'] : '';
+		$this->type->contributors = isset( $response['contributors'] ) ? $response['contributors'] : '';
 
 		return true;
 	}
